@@ -39,8 +39,21 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
-
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = []
+}
+Person.prototype.eat = function (someFood) {
+ if (this.stomach.length<10){
+   this.stomach.push(someFood)
+ }
+};
+Person.prototype.poop = function (){
+ return this.stomach.length=0;
+ }
+Person.prototype.toString = function (){
+  return `${this.name}, ${this.age}`;
 }
 
 /*
@@ -57,9 +70,33 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0
+  }
+  
+Car.prototype.fill = function(gallons){
+  return this.tank = this.tank + gallons;
 }
+// receive a distance number
+// ask question can we go distance
+// if no, we do something
+  // if distance is too far
+// if yes, execute previous code
+Car.prototype.drive = function(distance){
+  let driveableDist = this.tank * this.milesPerGallon;
+   if (distance > driveableDist){
+    this.odometer = this.odometer + driveableDist
+    this.tank = 0;
+     return `I ran out of fuel at ${this.odometer} miles!`;
+   } else {
+    this.odometer = this.odometer + distance;
+    this.tank = this.tank - distance/this.milesPerGallon;
+   }
+}
+
 
 /*
   TASK 3
@@ -68,18 +105,22 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.favoriteToy = favoriteToy;
 }
-
+Baby.prototype = Object.create(Person.prototype)
+Baby.prototype.play = function(){
+  return `"Playing with ${this.favoriteToy}", ${this.favoriteToy} being the favorite toy.`;
+}
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. If none of the other rules apply, the "this" defaults to the window object. 
+  2. Whenever a function is called by a preceding dot, the object before that dot is "this".
+  3. When a constructor function is used, "this" refers to the specific instance of the object that is created and returned by the constrictor function.
+  4. When call or apply methoed is used, "this" is explicitly defined.
 */
 
 
